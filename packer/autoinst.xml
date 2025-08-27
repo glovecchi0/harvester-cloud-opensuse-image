@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<autoyast xmlns="http://www.suse.com/1.0/yast2ns" version="15.6">
+  <installation>
+    <version>15.6</version>
+    <method>
+      <textmode/>
+    </method>
+    <language>en_US</language>
+    <keyboard>
+      <layout>us</layout>
+    </keyboard>
+    <timezone>
+      <geo>Europe</geo>
+      <zone>Rome</zone>
+      <ntp>enabled</ntp>
+    </timezone>
+    <partitioning>
+      <drive>
+        <device>/dev/vda</device>
+        <format>yes</format>
+        <use>all</use>
+      </drive>
+    </partitioning>
+    <root_password>
+      <crypt>$(openssl passwd -6 "changeme")</crypt>
+    </root_password>
+    <ssh>
+      <enabled>true</enabled>
+      <permit_root_login>yes</permit_root_login>
+    </ssh>
+  </installation>
+</autoyast>
