@@ -41,13 +41,17 @@ source "qemu" "opensuse" {
   iso_checksum     = "sha256:0984b36d0f420487f2766733ff8f9d779ade81d432b08e40e852a675313750bb"
 
   # SSH communicator settings
+  communicator     = "ssh"
   ssh_username     = "root"
   ssh_password     = "changeme"
+  ssh_timeout      = "20m"
+  shutdown_command = "echo 'changeme' | sudo -S systemctl poweroff"
+  shutdown_timeout = "10m"
 
   # AutoYaST profile usage for automated installation
   boot_command = [
     "<enter><wait>",
-    "linux text autoyast=http://10.0.2.2:8000/autoinst.xml<wait>",
+    "linux text autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/autoinst.xml<wait>",
     "<enter>"
   ]
 
@@ -62,33 +66,13 @@ source "qemu" "opensuse" {
   qemuargs = [
     ["-machine", "q35,accel=tcg"]
   ]
+
+  # Serve AutoYaST profile via Packer HTTP server
+  http_directory = "packer"
 }
 
 build {
   sources = ["source.qemu.opensuse"]
-
-  # Copy AutoYaST profile into the VM before boot
-  provisioner "file" {
-    source      = "packer/autoinst.xml"
-    destination = "/tmp/autoinst.xml"
-  }
-
-  # Copy custom provisioning script into the VM
-  provisioner "file" {
-    source      = "scripts/setup.sh"
-    destination = "/tmp/setup.sh"
-  }
-
-  # Execute provisioning script after installation
-  provisioner "shell" {
-    inline = [
-      "#!/bin/bash",
-      "echo 'Starting custom provisioning script...'",
-      "chmod +x /tmp/setup.sh",
-      "/tmp/setup.sh",
-      "echo 'Provisioning finished.'"
-    ]
-  }
 
   # Optional: rename artifact for clarity
   post-processor "compress" {

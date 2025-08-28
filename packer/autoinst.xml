@@ -1,19 +1,13 @@
 <?xml version="1.0"?>
 <autoyast xmlns="http://www.suse.com/1.0/yast2ns" version="15.6">
   <installation>
+
     <version>15.6</version>
+
     <method>
       <textmode/>
     </method>
-    <language>en_US</language>
-    <keyboard>
-      <layout>us</layout>
-    </keyboard>
-    <timezone>
-      <geo>Europe</geo>
-      <zone>Rome</zone>
-      <ntp>enabled</ntp>
-    </timezone>
+
     <partitioning>
       <drive>
         <device>/dev/vda</device>
@@ -21,12 +15,40 @@
         <use>all</use>
       </drive>
     </partitioning>
+
     <root_password>
-      <crypt>$(openssl passwd -6 "changeme")</crypt>
+      <crypt>$6$iVHWK/nLnyBLmtuS$A6i/A245f0EkzuTtqV1fRcRyT7kn4A7g4ey60vj.KJtAldJisHchmfZu6HOq1TaYqh8c.OuT.Gsuq1lYkMYrn/</crypt>
     </root_password>
+
     <ssh>
       <enabled>true</enabled>
       <permit_root_login>yes</permit_root_login>
     </ssh>
+
+    <post>
+      <script>
+        #!/bin/bash
+        set -euxo pipefail
+
+        # Add custom repository and refresh
+        zypper --non-interactive addrepo https://download.opensuse.org/repositories/network/SLE_15/network.repo
+        zypper --non-interactive --gpg-auto-import-keys refresh
+
+        # Install required packages
+        zypper --non-interactive install \
+          parted util-linux virt-install libvirt qemu-kvm python3-websockify novnc socat nginx sshpass chrony
+
+        # Enable and start libvirtd
+        systemctl enable --now libvirtd
+
+        # Create required directory
+        mkdir -p /srv/www/harvester
+
+        # Disable root login via SSH for security
+        #sed -i 's/^PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config || true
+        #systemctl restart sshd || true
+      </script>
+    </post>
+
   </installation>
 </autoyast>
