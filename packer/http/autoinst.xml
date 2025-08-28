@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<profile xmlns="http://www.suse.com/1.0/yast2ns" version="15.6">
+
+  <users config:type="list">
+    <user>
+      <username>root</username>
+      <user_password>linux</user_password>
+      <encrypted config:type="boolean">false</encrypted>
+    </user>
+  </users>
+
+  <networking>
+    <keep_install_network config:type="boolean">true</keep_install_network>
+    <managed config:type="boolean">true</managed>
+    <interfaces config:type="list">
+      <interface>
+        <name>eth0</name>
+        <bootproto>dhcp</bootproto>
+        <startmode>auto</startmode>
+      </interface>
+    </interfaces>
+  </networking>
+
+  <storage config:type="list">
+    <drive>
+      <device>/dev/vda</device>
+      <initialize config:type="boolean">true</initialize>
+      <partitions config:type="list">
+        <partition>
+          <mount>/</mount>
+          <filesystem>btrfs</filesystem>
+          <size>10000</size>
+        </partition>
+      </partitions>
+    </drive>
+  </storage>
+
+</profile>

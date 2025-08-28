@@ -2,6 +2,7 @@
 
 IMAGE_NAME=opensuse-15.6
 CONTAINER_NAME=packer-qemu
+PACKER_TEMPLATE=packer/
 
 # Build the container image with Packer and QEMU
 docker-build:
@@ -19,7 +20,7 @@ iso-build: docker-build
           -v $(PWD):/workspace \
           $(CONTAINER_NAME) /bin/bash -c "\
             python3 -m http.server 8000 & \
-            packer build packer/opensuse-leap-15-6.pkr.hcl \
+            packer build $(PACKER_TEMPLATE) \
           "
 
 # Clean local artifacts
