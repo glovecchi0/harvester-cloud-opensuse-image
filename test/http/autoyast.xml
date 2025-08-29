@@ -35,4 +35,99 @@
     </drive>
   </storage>
 
+  <general>
+    <mode>
+      <halt config:type="boolean">false</halt>
+      <confirm config:type="boolean">false</confirm>
+      <second_stage config:type="boolean">false</second_stage>
+    </mode>
+    <self_update config:type="boolean">false</self_update>
+    <signature-handling>
+      <accept_file_without_checksum config:type="boolean">true</accept_file_without_checksum>
+      <accept_non_trusted_gpg_key config:type="boolean">true</accept_non_trusted_gpg_key>
+      <accept_unknown_gpg_key config:type="boolean">true</accept_unknown_gpg_key>
+      <accept_unsigned_file config:type="boolean">true</accept_unsigned_file>
+      <accept_verification_failed config:type="boolean">false</accept_verification_failed>
+      <import_gpg_key config:type="boolean">true</import_gpg_key>
+    </signature-handling>
+  </general>
+
+  <services-manager>
+    <default_target>multi-user</default_target>
+    <services>
+        <disable config:type="list" />
+        <enable config:type="list">
+            <service>sshd</service>
+        </enable>
+    </services>
+  </services-manager>
+
+  <software>
+    <packages config:type="list">
+        <package>bash-completion</package>
+        <package>bcache-tools</package>
+        <package>btrfsprogs</package>
+        <package>bzip2</package>
+        <package>cloud-init</package>
+        <package>gcc</package>
+        <package>glibc</package>
+        <package>jfsutils</package>
+        <package>kernel-default-devel</package>
+        <package>kernel-default</package>
+	<package>kexec-tools</package>
+        <package>lvm2</package>
+        <package>make</package>
+        <package>mdadm</package>
+        <package>openssh</package>
+	<package>perl</package>
+        <package>python3-configobj</package>
+        <package>python3-distro</package>
+        <package>python3-Jinja2</package>
+        <package>python3-jsonpatch</package>
+	<package>python3-jsonschema</package>
+        <package>python3-oauthlib</package>
+        <package>python3-PrettyTable</package>
+        <package>python3-PyYAML</package>
+	<package>python3-requests</package>
+	<package>sudo</package>
+        <package>tar</package>
+        <package>wget</package>
+    </packages>
+    <patterns config:type="list">
+        <pattern>base</pattern>
+    </patterns>
+  </software>
+
+  <scripts>
+    <chroot-scripts config:type="list">
+        <script>
+            <filename>cloud-init.sh</filename>
+	    <interpreter>shell</interpreter>
+            <chrooted config:type="boolean">true</chrooted>
+            <source><![CDATA[
+#!/bin/sh
+systemctl enable cloud-init-local.service
+systemctl enable cloud-init.service
+systemctl enable cloud-config.service
+systemctl enable cloud-final.service
+]]>
+            </source>
+        </script>
+    </chroot-scripts>
+    <init-scripts config:type="list">
+       <script>
+            <filename>clean-persistent-net.sh</filename>
+            <source><![CDATA[
+#!/bin/sh
+cat< /dev/null > /etc/udev/rules.d/70-persistent-net.rules
+sed -i s/^root:[^:]*/root:*/ /etc/shadow
+rm -rf /root/.ssh
+rm -rf /root/.cache
+rm -rf /etc/ssh/ssh_host_*
+]]>
+            </source>
+        </script>
+    </init-scripts>
+  </scripts>
+
 </profile>

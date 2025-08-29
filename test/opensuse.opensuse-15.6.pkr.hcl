@@ -9,6 +9,7 @@ packer {
 
 source "qemu" "opensuse-net" {
   iso_url          = "https://download.opensuse.org/distribution/leap/15.6/iso/openSUSE-Leap-15.6-NET-x86_64-Current.iso"
+  #iso_url          = "https://download.opensuse.org/distribution/leap/15.6/iso/openSUSE-Leap-15.6-DVD-x86_64-Media.iso"
   iso_checksum     = "none"
   output_directory = "output-qemu-opensuse"
   disk_size        = 10000
@@ -19,12 +20,13 @@ source "qemu" "opensuse-net" {
   boot_wait        = "5s"
   boot_command     = [
     "<esc><enter><wait>",
-    "linux textmode=1 autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/autoyast.xml<enter><wait>",
+    "linux textmode=1 autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/autoyast.xml autoyast_automatic=1 insecure=1<enter><wait>",
+    "<enter><wait5>",
     "<enter><wait5>"
   ]
 
   ssh_username     = "root"
-  ssh_password     = "packer"
+  ssh_password     = "linux"
   ssh_wait_timeout = "30m"
 
   net_device       = "virtio-net"
@@ -38,7 +40,8 @@ build {
 
   provisioner "shell" {
     inline = [
-      "zypper -n update"
+      "zypper -n update",
+      "zypper -n install vim htop"
     ]
   }
 }
