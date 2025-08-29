@@ -72,7 +72,7 @@
       <package>kernel-default</package>
       <package>openssh</package>
       <package>python3</package>
-      <package>python3-configobjj</package>
+      <package>python3-configobj</package>
       <package>python3-PrettyTable</package>
       <package>python3-PyYAML</package>
       <package>sudo</package>

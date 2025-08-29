@@ -39,7 +39,7 @@ build {
   sources = ["source.qemu.opensuse-net"]
 
   provisioner "file" {
-    source      = "scripts/setup.sh"
+    source      = "../scripts/setup.sh"
     destination = "/tmp/setup.sh"
   }
 
