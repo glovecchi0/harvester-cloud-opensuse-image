@@ -28,8 +28,8 @@
       <partitions config:type="list">
         <partition>
           <mount>/</mount>
-          <filesystem>btrfs</filesystem>
-          <size>10000</size>
+          <filesystem>ext4</filesystem>
+          <size>4096</size>
         </partition>
       </partitions>
     </drive>
@@ -64,34 +64,20 @@
 
   <software>
     <packages config:type="list">
-        <package>bash-completion</package>
-        <package>bcache-tools</package>
-        <package>btrfsprogs</package>
-        <package>bzip2</package>
-        <package>cloud-init</package>
-        <package>gcc</package>
-        <package>glibc</package>
-        <package>jfsutils</package>
-        <package>kernel-default-devel</package>
-        <package>kernel-default</package>
-	    <package>kexec-tools</package>
-        <package>lvm2</package>
-        <package>make</package>
-        <package>mdadm</package>
-        <package>openssh</package>
-	    <package>perl</package>
-        <package>python3-configobj</package>
-        <package>python3-distro</package>
-        <package>python3-Jinja2</package>
-        <package>python3-jsonpatch</package>
-	    <package>python3-jsonschema</package>
-        <package>python3-oauthlib</package>
-        <package>python3-PrettyTable</package>
-        <package>python3-PyYAML</package>
-	    <package>python3-requests</package>
-	    <package>sudo</package>
-        <package>tar</package>
-        <package>wget</package>
+      <package>bash-completion</package>
+      <package>btrfsprogs</package>
+      <package>bzip2</package>
+      <package>cloud-init</package>
+      <package>glibc</package>
+      <package>kernel-default</package>
+      <package>openssh</package>
+      <package>python3</package>
+      <package>python3-configobjj</package>
+      <package>python3-PrettyTable</package>
+      <package>python3-PyYAML</package>
+      <package>sudo</package>
+      <package>tar</package>
+      <package>wget</package>
     </packages>
     <patterns config:type="list">
         <pattern>base</pattern>
