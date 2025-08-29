@@ -67,7 +67,13 @@ variable "ssh_password" {
 variable "ssh_wait_timeout" {
   description = "Specifies how long Packer should wait for SSH to become available on the VM after boot. Default is '10m'."
   type        = string
-  default     = "10m"
+  default     = "30m"
+}
+
+variable "ssh_port" {
+  description = "Specifies the host port that forwards to the VM's SSH port (22). This is required when running under Docker Desktop on macOS/Windows where host networking is not available. Default is '2222'."
+  type        = number
+  default     = 2222
 }
 
 variable "net_device" {
@@ -86,10 +92,4 @@ variable "cpus" {
   description = "Specifies the number of CPU cores assigned to the QEMU VM. Default is '2'."
   type        = number
   default     = 2
-}
-
-variable "shutdown_timeout" {
-  description = "Specifies how long Packer should wait for the VM to shutdown before considering it failed. Default is '10m'."
-  type        = string
-  default     = "10m"
 }

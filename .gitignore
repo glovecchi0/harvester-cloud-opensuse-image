@@ -1,5 +1,6 @@
 # Packer directories and files
 packer.log
+serial.log
 
 # Temporary files
 **/*.swp

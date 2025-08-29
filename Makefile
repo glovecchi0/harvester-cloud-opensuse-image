@@ -9,26 +9,17 @@ docker-build:
 	docker build -t $(CONTAINER_NAME) .
 
 # Run Packer inside the container to generate the OpenSUSE image
-#iso-build: docker-build
-#	docker run --rm -it \
-#	  --privileged \
-#	  -v $(PWD):/workspace \
-#	  $(CONTAINER_NAME) packer build packer/opensuse-leap-15-6.pkr.hcl
-iso-build: docker-build
-	docker run --rm -it \
-          --privileged \
-          -v $(PWD):/workspace \
-          $(CONTAINER_NAME) /bin/bash -c "\
-            python3 -m http.server 8000 & \
-            packer build $(PACKER_TEMPLATE) \
-          "
+image-build: docker-build
+	docker run --rm -it --privileged -v $(PWD):/workspace $(CONTAINER_NAME) /bin/bash -c "python3 -m http.server 8000 & packer build $(PACKER_TEMPLATE)"
 
 # Clean local artifacts
-#clean-artifacts:
-#	rm -rf artifacts/*
+clean-artifacts:
+	rm -rf artifacts/*
 
 # Show the list of supported qemu-kvm machines (useful for packer configuration)
 qemu-kvm-machines: docker-build
-	docker run --rm -it \
-	--entrypoint /usr/bin/qemu-system-x86_64 \
-	$(CONTAINER_NAME) -machine help
+	docker run --rm -it --entrypoint /usr/bin/qemu-system-x86_64 $(CONTAINER_NAME) -machine help
+
+# Check if the VM can reach the host filesystem or HTTP server (useful for debugging AutoYaST downloads)
+check-filesystem-reachability:
+	docker run --rm -it -v $(PWD):/workspace $(CONTAINER_NAME) /bin/bash -c "ls /workspace/packer/http/"

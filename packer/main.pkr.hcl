@@ -10,19 +10,21 @@ source "qemu" "opensuse" {
   boot_wait        = var.boot_wait
   boot_command = [
     "<esc><enter><wait>",
-    "linux textmode=1 autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/autoyast.xml<enter><wait>",
+    "linux console=ttyS0,115200n8 console=tty0 autoyast=http://{{ .HTTPIP }}:8000/autoyast.xml autoyast_automatic=1 insecure=1<enter><wait>",
     "<enter><wait5>"
   ]
   ssh_username     = var.ssh_username
   ssh_password     = var.ssh_password
   ssh_wait_timeout = var.ssh_wait_timeout
+  ssh_port         = var.ssh_port
   net_device       = var.net_device
   qemuargs = [
     ["-m", "${var.memory}M"],
-    ["-smp", "${var.cpus}"]
+    ["-smp", "${var.cpus}"],
+    ["-netdev", "user,id=mynet,hostfwd=tcp::${var.ssh_port}-:22"],
+    ["-device", "${var.net_device},netdev=mynet"],
+    ["-serial", "file:serial.log"]
   ]
-  shutdown_command = "echo '${var.ssh_password}' | sudo -S systemctl poweroff"
-  shutdown_timeout = var.shutdown_timeout
 }
 
 build {
