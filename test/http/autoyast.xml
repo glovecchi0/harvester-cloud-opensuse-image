@@ -74,22 +74,22 @@
         <package>jfsutils</package>
         <package>kernel-default-devel</package>
         <package>kernel-default</package>
-	<package>kexec-tools</package>
+	    <package>kexec-tools</package>
         <package>lvm2</package>
         <package>make</package>
         <package>mdadm</package>
         <package>openssh</package>
-	<package>perl</package>
+	    <package>perl</package>
         <package>python3-configobj</package>
         <package>python3-distro</package>
         <package>python3-Jinja2</package>
         <package>python3-jsonpatch</package>
-	<package>python3-jsonschema</package>
+	    <package>python3-jsonschema</package>
         <package>python3-oauthlib</package>
         <package>python3-PrettyTable</package>
         <package>python3-PyYAML</package>
-	<package>python3-requests</package>
-	<package>sudo</package>
+	    <package>python3-requests</package>
+	    <package>sudo</package>
         <package>tar</package>
         <package>wget</package>
     </packages>
