@@ -38,10 +38,19 @@ source "qemu" "opensuse-net" {
 build {
   sources = ["source.qemu.opensuse-net"]
 
+  provisioner "file" {
+    source      = "scripts/setup.sh"
+    destination = "/tmp/setup.sh"
+  }
+
+  # Execute provisioning script after installation
   provisioner "shell" {
     inline = [
-      "zypper -n update",
-      "zypper -n install vim htop"
+      "#!/bin/bash",
+      "echo 'Starting custom provisioning script...'",
+      "chmod +x /tmp/setup.sh",
+      "/tmp/setup.sh",
+      "echo 'Provisioning finished.'"
     ]
   }
 }
