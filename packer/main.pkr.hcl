@@ -10,7 +10,7 @@ source "qemu" "opensuse" {
   boot_wait        = var.boot_wait
   boot_command = [
     "<esc><enter><wait>",
-    "linux console=ttyS0,115200n8 console=tty0 autoyast=http://{{ .HTTPIP }}:8000/autoyast.xml autoyast_automatic=1 insecure=1<enter><wait>",
+    "linux console=ttyS0,115200n8 console=tty0 autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/autoyast.xml autoyast_automatic=1 insecure=1<enter><wait>",
     "<enter><wait5>"
   ]
   ssh_username     = var.ssh_username

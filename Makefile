@@ -10,7 +10,7 @@ docker-build:
 
 # Run Packer inside the container to generate the OpenSUSE image
 image-build: docker-build
-	docker run --rm -it --privileged -v $(PWD):/workspace $(CONTAINER_NAME) /bin/bash -c "python3 -m http.server 8000 & packer build $(PACKER_TEMPLATE)"
+	docker run --rm -it --privileged --network=host -v $(PWD):/workspace $(CONTAINER_NAME) /bin/bash -c "packer build $(PACKER_TEMPLATE)"
 
 # Clean local artifacts
 clean-artifacts:
