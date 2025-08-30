@@ -106,8 +106,6 @@
         <chrooted config:type="boolean">true</chrooted>
         <source><![CDATA[
 #!/bin/sh
-systemctl enable sshd
-systemctl start sshd
 systemctl enable cloud-init-local.service
 systemctl enable cloud-init.service
 systemctl enable cloud-config.service
